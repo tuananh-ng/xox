@@ -114,4 +114,52 @@ function GameController(gameSize = 3) {
         switchTurn();
         printNewRound();
     };
+
+    function checkWinner() {
+        const directions = {
+            top: initDirection(-1, 0),
+            bottom: initDirection(1, 0),
+            left: initDirection(0, -1),
+            right: initDirection(0, 1),
+            topLeft: initDirection(-1, -1),
+            topRight: initDirection(-1, 1),
+            bottomLeft: initDirection(1, -1),
+            bottomRight: initDirection(1, 1),
+        };
+
+        for (const direction of Object.keys(directions)) {
+            const nextPos = {
+                row: latestMark.row + directions[direction].relativePos.row,
+                column: latestMark.column + directions[direction].relativePos.column,
+            };
+
+            while ((nextPos.row >= 0 && nextPos.row < gameSize) && (nextPos.column >= 0 && nextPos.column < gameSize)) {
+                if (board.getBoard()[nextPos.row][nextPos.column].getMark() === latestMark.mark) {
+                    directions[direction].numMarks++;
+                    nextPos.row = nextPos.row + directions[direction].relativePos.row;
+                    nextPos.column = nextPos.column + directions[direction].relativePos.column;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if (directions.top.numMarks + directions.bottom.numMarks + 1 === gameSize ||
+            directions.left.numMarks + directions.right.numMarks + 1 === gameSize ||
+            directions.topLeft.numMarks + directions.bottomRight + 1 === gameSize ||
+            directions.topRight.numMarks + directions.bottomLeft + 1 === gameSize
+        ) {
+            return true;
+        }
+        return false;
+
+        function initDirection(relativePosRow, relativePosColumn) {
+            return {
+                numMarks: 0,
+                relativePos: {row: relativePosRow, column: relativePosColumn},
+            };
+        }
+    }
+
+    return {getActivePlayer, playRound};
 }
