@@ -60,4 +60,9 @@ function GameController(gameSize = 3) {
         Player('Player One', 'x'),
         Player('Player Two', 'o'),
     ];
+
+    let activePlayer = players[0];
+    let latestMark = null;
+    let winner = null;
+    let tie = false;
 }
