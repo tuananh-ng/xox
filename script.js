@@ -17,7 +17,7 @@ function Cell(location = {row: 0, column: 0}) {
     return {getLocation, getMark, setMark};
 }
 
-function GameBoar(size = 3) {
+function GameBoard(size = 3) {
     if (size < 2) {
         throw new Error('Not enough cells to draw a board!');
     }
