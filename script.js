@@ -74,4 +74,17 @@ function GameController(gameSize = 3) {
         board.printBoard();
         console.log(`The current turn is for ${getActivePlayer().getName()}`);
     };
+
+    const playRound = (row, column) => {
+        if (winner !== null) {
+            let message = `The game has ended with the winner is ${winner.getName()}`;
+            console.log(`${message}`);
+            return message;
+        }
+        if (winner === null && tie) {
+            let message = 'The game has ended with a tie';
+            console.log(`${message}`);
+            return message;
+        }
+    };
 }
