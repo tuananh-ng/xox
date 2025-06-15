@@ -16,3 +16,37 @@ function Cell(location = {row: 0, column: 0}) {
 
     return {getLocation, getMark, setMark};
 }
+
+function GameBoar(size = 3) {
+    if (size < 2) {
+        throw new Error('Not enough cells to draw a board!');
+    }
+
+    const board = [];
+    for (let i = 0; i < size; i++) {
+        board[i] = [];
+        for (let j = 0; j < size; j++) {
+            board[i].push(Cell({row: i, column: j}));
+        }
+    }
+
+    const getBoard = () => board;
+    const printBoard = () => {
+        getBoard().map(
+            (row) => console.log(row.map((cell) => cell.getMark()))
+        );
+    };
+
+    const placeMark = (mark, row, column) {
+        if ((row < 0 || row >= size) || (column < 0 || column >= size)) {
+            throw new Error('Invalid position!');
+        }
+        if (board[row][column].getMark() !== null) {
+            throw new Error(`There is already a mark at row ${row} and column ${column}`);
+        }
+
+        board[row][column].setMark(mark);
+    };
+
+    return {getBoard, printBoard, placeMark};
+}
