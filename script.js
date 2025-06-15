@@ -65,4 +65,13 @@ function GameController(gameSize = 3) {
     let latestMark = null;
     let winner = null;
     let tie = false;
+
+    const getActivePlayer = () => activePlayer;
+    const switchTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+    const printNewRound = () => {
+        board.printBoard();
+        console.log(`The current turn is for ${getActivePlayer().getName()}`);
+    };
 }
