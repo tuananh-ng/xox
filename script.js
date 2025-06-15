@@ -94,5 +94,24 @@ function GameController(gameSize = 3) {
             console.log(`${error.message}`);
             return error.message;
         }
+
+        latestMark = {mark: getActivePlayer.getMarkType(), row, column};
+        if (checkWinner()) {
+            getActivePlayer().setWinner();
+            winner = getActivePlayer();
+
+            let message = `${winner.getName()} won!`;
+            console.log(`${message}`);
+            return message;
+        }
+        if (board.getNumPlacedMarks() === gameSize**2) {
+            tie = true;
+            let message = 'A tie!';
+            console.log(`${message}`);
+            return message;
+        }
+
+        switchTurn();
+        printNewRound();
     };
 }
