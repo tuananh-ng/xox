@@ -143,11 +143,11 @@ function GameController(gameSize = 3) {
                 }
             }
         }
-
+        
         if (directions.top.numMarks + directions.bottom.numMarks + 1 === gameSize ||
             directions.left.numMarks + directions.right.numMarks + 1 === gameSize ||
-            directions.topLeft.numMarks + directions.bottomRight + 1 === gameSize ||
-            directions.topRight.numMarks + directions.bottomLeft + 1 === gameSize
+            directions.topLeft.numMarks + directions.bottomRight.numMarks + 1 === gameSize ||
+            directions.topRight.numMarks + directions.bottomLeft.numMarks + 1 === gameSize
         ) {
             return true;
         }
