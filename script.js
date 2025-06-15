@@ -39,7 +39,7 @@ function GameBoard(size = 3) {
         );
     };
 
-    const placeMark = (mark, row, column) {
+    const placeMark = (mark, row, column) => {
         if ((row < 0 || row >= size) || (column < 0 || column >= size)) {
             throw new Error('Invalid position!');
         }
@@ -89,13 +89,13 @@ function GameController(gameSize = 3) {
 
         console.log(`Place the ${getActivePlayer().getName()}'s mark at row ${row} and column ${column}`);
         try {
-            board.placeMark(getActivePlayer.getMarkType(), row, column);
+            board.placeMark(getActivePlayer().getMarkType(), row, column);
         } catch (error) {
             console.log(`${error.message}`);
             return error.message;
         }
 
-        latestMark = {mark: getActivePlayer.getMarkType(), row, column};
+        latestMark = {mark: getActivePlayer().getMarkType(), row, column};
         if (checkWinner()) {
             getActivePlayer().setWinner();
             winner = getActivePlayer();
