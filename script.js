@@ -161,5 +161,6 @@ function GameController(gameSize = 3) {
         }
     }
 
+    printNewRound();
     return {getActivePlayer, playRound};
 }
