@@ -53,3 +53,11 @@ function GameBoard(size = 3) {
 
     return {getBoard, printBoard, placeMark, getNumPlacedMarks};
 }
+
+function GameController(gameSize = 3) {
+    const board = GameBoard(gameSize);
+    const players = [
+        Player('Player One', 'x'),
+        Player('Player Two', 'o'),
+    ];
+}
