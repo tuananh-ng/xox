@@ -29,7 +29,9 @@ function GameBoar(size = 3) {
             board[i].push(Cell({row: i, column: j}));
         }
     }
+    let numPlacedMarks = 0;
 
+    const getNumPlacedMarks = () => numPlacedMarks
     const getBoard = () => board;
     const printBoard = () => {
         getBoard().map(
@@ -46,7 +48,8 @@ function GameBoar(size = 3) {
         }
 
         board[row][column].setMark(mark);
+        numPlacedMarks++;
     };
 
-    return {getBoard, printBoard, placeMark};
+    return {getBoard, printBoard, placeMark, getNumPlacedMarks};
 }
