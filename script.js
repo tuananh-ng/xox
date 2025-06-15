@@ -86,5 +86,13 @@ function GameController(gameSize = 3) {
             console.log(`${message}`);
             return message;
         }
+
+        console.log(`Place the ${getActivePlayer().getName()}'s mark at row ${row} and column ${column}`);
+        try {
+            board.placeMark(getActivePlayer.getMarkType(), row, column);
+        } catch (error) {
+            console.log(`${error.message}`);
+            return error.message;
+        }
     };
 }
