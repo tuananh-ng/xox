@@ -12,3 +12,16 @@ body {
     place-items: center;
     gap: 40px;
 }
+
+.header {
+    margin-top: 40px;
+    width: clamp(400px, 80%, 800px);
+    height: clamp(80px, 10%, 140px);
+    display: grid;
+    grid-auto-flow: column;
+    justify-items: center;
+    gap: 6px;
+
+    background-color: black;
+    color: white;
+}
