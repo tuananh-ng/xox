@@ -25,3 +25,9 @@ body {
     background-color: black;
     color: white;
 }
+.header-cell {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
