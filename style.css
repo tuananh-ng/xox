@@ -31,3 +31,22 @@ body {
     align-items: center;
     gap: 4px;
 }
+
+.header .title {
+    font-weight: bold;
+}
+
+.header,
+.header button,
+select {
+    border-radius: 4px;;
+}
+
+.header button,
+select {
+    padding: 6px;
+    font-size: 1rem;
+}
+.header button {
+    cursor: pointer;
+}
