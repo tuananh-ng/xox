@@ -196,6 +196,9 @@ function ScreenController() {
                 if (!gameMessage) {
                     displayActivePlayer();
                 } else {
+                    if (gameController.getActivePlayer().getWinnerStatus()) {
+                        displayWinner();
+                    }
                     alert(gameMessage);
                 }
             } catch (error) {
