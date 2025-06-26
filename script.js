@@ -165,48 +165,88 @@ function GameController(gameSize = 3) {
     return {getActivePlayer, playRound};
 }
 
-function GameBoardDisplayer() {
-    const cellStore = [];
+function ScreenController() {
+    let gameController = null;
+    let boardDisplay = null;
 
-    const createBoard = (boardSize = 3) => {
-        const board = document.createElement('div');
-        board.classList.toggle('board');
-
-        if (cellStore.length !== 0) {
-            cellStore.splice(0, cellStore.length); // remove all existing cells
+    const createGame = () => {
+        for (const sizeOption of document.querySelectorAll('option')) {
+            if (sizeOption.selected) {
+                gameController = GameController(sizeOption.value);
+                boardDisplay = createBoardDisplay(sizeOption.value);
+                break;
+            }
         }
+    };
+
+    const playGame = () => {
+        if (!hasBoardDisplay()) {
+            return;
+        }
+        displayActivePlayer();
+
+        boardDisplay.addEventListener('click', () => {
+            const activeCellLocation = event.target.getAttribute('id').split('-');
+            const activePlayerMark = gameController.getActivePlayer().getMarkType();
+            const gameMessage = gameController.playRound(activeCellLocation[0], activeCellLocation[1]);
+
+            if (!gameMessage) {
+                event.target.textContent = activePlayerMark;
+                displayActivePlayer();
+                return;
+            }
+
+            if (gameController.getActivePlayer().getWinnerStatus()) {
+                displayWinner();
+            }
+            alert(`${gameMessage}`);
+        });
+    };
+
+    const clearGameState = () => {
+        if (gameController !== null) {
+            gameController = null;
+        }
+        if (boardDisplay !== null) {
+            boardDisplay = null;
+        }
+    };
+
+    function createBoardDisplay(boardSize = 3) {
+        const boardDisplay = document.createElement('div');
+        boardDisplay.classList.toggle('board');
 
         for (let i = 0; i < boardSize; i++) {
             cellStore[i] = [];
             for (let j = 0; j < boardSize; j++) {
                 const cell = document.createElement('button');
                 cell.classList.toggle('cell');
-                cellStore[i].push(cell);
-                board.appendChild(cell);
+                cell.setAttribute('id', `${i}-${j}`); // attach the cell location
+                boardDisplay.appendChild(cell);
             }
         }
 
-        return board;
+        return boardDisplay;
     };
 
-    const drawOnBoard = (row, column, mark) => {
-        cellStore[row][column].textContent = mark;
-    };
-
-    const getCellLocation = (cell) => {
-        let row = null;
-        let column = null;
-
-        for (let i = 0; i < cellStore.length; i++) {
-            const index = cellStore[i].indexOf(cell);
-            if (index !== -1) {
-                row = i;
-                column = index;
-            }
+    function hasBoardDisplay() {
+        if (document.querySelector('.board')) {
+            return true;
         }
+        return false;
+    }
 
-        return {row, column};
+    function displayActivePlayer() {
+        if (game !== null) {
+            document.querySelector('#active-player').textContent = game.getActivePlayer().getName();
+        }
     };
 
-    return {createBoard, drawOnBoard, getCellLocation};
+    function displayWinner() {
+        if (game !== null && game.getActivePlayer().getWinnerStatus()) {
+            document.querySelector('#winnder').textContent = game.getActivePlayer().getName();
+        }
+    };
+
+    return {createGame, playGame, clearGameState};
 }
