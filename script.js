@@ -164,3 +164,34 @@ function GameController(gameSize = 3) {
     printNewRound();
     return {getActivePlayer, playRound};
 }
+
+function GameBoardDisplayer() {
+    const cellStore = [];
+
+    const createBoard = (boardSize = 3) => {
+        const board = document.createElement('div');
+        board.classList.toggle('board');
+
+        if (cellStore.length !== 0) {
+            cellStore.splice(0, cellStore.length); // remove all existing cells
+        }
+
+        for (let i = 0; i < boardSize; i++) {
+            cellStore[i] = [];
+            for (let j = 0; j < boardSize; j++) {
+                const cell = document.createElement('button');
+                cell.classList.toggle('cell');
+                cellStore[i].push(cell);
+                board.appendChild(cell);
+            }
+        }
+
+        return board;
+    };
+
+    const drawOnBoard = (row, column, mark) => {
+        cellStore[row][column].textContent = mark;
+    };
+
+    return {createBoard, drawOnBoard};
+}
