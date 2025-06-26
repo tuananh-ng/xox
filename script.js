@@ -197,7 +197,7 @@ function ScreenController() {
             const activeCellLocation = event.target.getAttribute('id').split('-');
             const activePlayerMark = gameController.getActivePlayer().getMarkType();
             const gameMessage = gameController.playRound(+activeCellLocation[0], +activeCellLocation[1]);
-            
+
             if (!gameMessage) {
                 event.target.textContent = activePlayerMark;
                 displayActivePlayer();
@@ -226,6 +226,8 @@ function ScreenController() {
     function createBoardDisplay(boardSize = 3) {
         const boardDisplay = document.createElement('div');
         boardDisplay.classList.toggle('board');
+        boardDisplay.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+        boardDisplay.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
         for (let i = 0; i < boardSize; i++) {
             for (let j = 0; j < boardSize; j++) {
