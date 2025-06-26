@@ -193,5 +193,20 @@ function GameBoardDisplayer() {
         cellStore[row][column].textContent = mark;
     };
 
-    return {createBoard, drawOnBoard};
+    const getCellLocation = (cell) => {
+        let row = null;
+        let column = null;
+
+        for (let i = 0; i < cellStore.length; i++) {
+            const index = cellStore[i].indexOf(cell);
+            if (index !== -1) {
+                row = i;
+                column = index;
+            }
+        }
+
+        return {row, column};
+    };
+
+    return {createBoard, drawOnBoard, getCellLocation};
 }
