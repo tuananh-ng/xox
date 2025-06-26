@@ -85,22 +85,15 @@ function GameController(gameSize = 3) {
     const playRound = (row, column) => {
         if (winner !== null) {
             let message = `The game has ended with the winner is ${winner.getName()}`;
-            console.log(`${message}`);
-            return message;
+            throw new Error(message);
         }
         if (winner === null && tie) {
             let message = 'The game has ended with a tie';
-            console.log(`${message}`);
-            return message;
+            throw new Error(message);
         }
 
         console.log(`Place the ${getActivePlayer().getName()}'s mark at row ${row} and column ${column}`);
-        try {
-            board.placeMark(getActivePlayer().getMarkType(), row, column);
-        } catch (error) {
-            console.log(`${error.message}`);
-            return error.message;
-        }
+        board.placeMark(getActivePlayer().getMarkType(), row, column);
 
         latestMark = {mark: getActivePlayer().getMarkType(), row, column};
         if (checkWinner()) {
@@ -196,18 +189,18 @@ function ScreenController() {
         boardDisplay.addEventListener('click', () => {
             const activeCellLocation = event.target.getAttribute('id').split('-');
             const activePlayerMark = gameController.getActivePlayer().getMarkType();
-            const gameMessage = gameController.playRound(+activeCellLocation[0], +activeCellLocation[1]);
-
-            if (!gameMessage) {
+            
+            try {
+                const gameMessage = gameController.playRound(+activeCellLocation[0], +activeCellLocation[1]);
                 event.target.textContent = activePlayerMark;
-                displayActivePlayer();
-                return;
+                if (!gameMessage) {
+                    displayActivePlayer();
+                } else {
+                    alert(gameMessage);
+                }
+            } catch (error) {
+                alert(error);
             }
-
-            if (gameController.getActivePlayer().getWinnerStatus()) {
-                displayWinner();
-            }
-            alert(`${gameMessage}`);
         });
     };
 
