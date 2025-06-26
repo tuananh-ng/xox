@@ -1,3 +1,10 @@
+const gameInterface = ScreenController();
+document.querySelector('#new-game').addEventListener('click', () => {
+    gameInterface.clearGameState();
+    gameInterface.createGame();
+    gameInterface.playGame();
+});
+
 function Player(name, markType) {
     let isWinner = false;
     const getName = () => name;
@@ -172,8 +179,9 @@ function ScreenController() {
     const createGame = () => {
         for (const sizeOption of document.querySelectorAll('option')) {
             if (sizeOption.selected) {
-                gameController = GameController(sizeOption.value);
-                boardDisplay = createBoardDisplay(sizeOption.value);
+                gameController = GameController(+sizeOption.value);
+                boardDisplay = createBoardDisplay(+sizeOption.value);
+                document.body.appendChild(boardDisplay);
                 break;
             }
         }
@@ -188,8 +196,8 @@ function ScreenController() {
         boardDisplay.addEventListener('click', () => {
             const activeCellLocation = event.target.getAttribute('id').split('-');
             const activePlayerMark = gameController.getActivePlayer().getMarkType();
-            const gameMessage = gameController.playRound(activeCellLocation[0], activeCellLocation[1]);
-
+            const gameMessage = gameController.playRound(+activeCellLocation[0], +activeCellLocation[1]);
+            
             if (!gameMessage) {
                 event.target.textContent = activePlayerMark;
                 displayActivePlayer();
@@ -204,10 +212,13 @@ function ScreenController() {
     };
 
     const clearGameState = () => {
+        document.querySelector('#active-player').textContent = 'none';
+        document.querySelector('#winner').textContent = 'none';
         if (gameController !== null) {
             gameController = null;
         }
         if (boardDisplay !== null) {
+            document.body.removeChild(boardDisplay);
             boardDisplay = null;
         }
     };
@@ -217,7 +228,6 @@ function ScreenController() {
         boardDisplay.classList.toggle('board');
 
         for (let i = 0; i < boardSize; i++) {
-            cellStore[i] = [];
             for (let j = 0; j < boardSize; j++) {
                 const cell = document.createElement('button');
                 cell.classList.toggle('cell');
@@ -237,14 +247,14 @@ function ScreenController() {
     }
 
     function displayActivePlayer() {
-        if (game !== null) {
-            document.querySelector('#active-player').textContent = game.getActivePlayer().getName();
+        if (gameController !== null) {
+            document.querySelector('#active-player').textContent = gameController.getActivePlayer().getName();
         }
     };
 
     function displayWinner() {
-        if (game !== null && game.getActivePlayer().getWinnerStatus()) {
-            document.querySelector('#winnder').textContent = game.getActivePlayer().getName();
+        if (gameController !== null && gameController.getActivePlayer().getWinnerStatus()) {
+            document.querySelector('#winner').textContent = gameController.getActivePlayer().getName();
         }
     };
 
