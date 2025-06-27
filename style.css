@@ -65,3 +65,7 @@ button {
 .board > .cell {
     border: 2px solid black;
 }
+.board > .cell:nth-child(even) {
+    background-color: black;
+    color: white;
+}
