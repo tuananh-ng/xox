@@ -84,12 +84,10 @@ function GameController(gameSize = 3) {
 
     const playRound = (row, column) => {
         if (winner !== null) {
-            let message = `The game has ended with the winner is ${winner.getName()}`;
-            throw new Error(message);
+            throw new Error(`The game has ended with the winner is ${winner.getName()}`);
         }
         if (winner === null && tie) {
-            let message = 'The game has ended with a tie';
-            throw new Error(message);
+            throw new Error('The game has ended with a tie');
         }
 
         console.log(`Place the ${getActivePlayer().getName()}'s mark at row ${row} and column ${column}`);
@@ -181,7 +179,7 @@ function ScreenController() {
     };
 
     const playGame = () => {
-        if (!hasBoardDisplay()) {
+        if (!boardDisplay) {
             return;
         }
         displayActivePlayer();
@@ -236,13 +234,6 @@ function ScreenController() {
 
         return boardDisplay;
     };
-
-    function hasBoardDisplay() {
-        if (document.querySelector('.board')) {
-            return true;
-        }
-        return false;
-    }
 
     function displayActivePlayer() {
         if (gameController !== null) {
