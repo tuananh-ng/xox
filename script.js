@@ -83,10 +83,10 @@ function GameController(gameSize = 3) {
     };
 
     const playRound = (row, column) => {
-        if (winner !== null) {
-            throw new Error(`The game has ended with the winner is ${winner.getName()}`);
+        if (getActivePlayer().getWinnerStatus()) {
+            throw new Error(`The game has ended with the winner is ${getActivePlayer().getName()}`);
         }
-        if (winner === null && tie) {
+        if (!getActivePlayer().getWinnerStatus() && tie) {
             throw new Error('The game has ended with a tie');
         }
 
@@ -96,9 +96,8 @@ function GameController(gameSize = 3) {
         latestMark = {mark: getActivePlayer().getMarkType(), row, column};
         if (checkWinner()) {
             getActivePlayer().setWinner();
-            winner = getActivePlayer();
 
-            let message = `${winner.getName()} won!`;
+            let message = `${getActivePlayer().getName()} won!`;
             console.log(`${message}`);
             return message;
         }
