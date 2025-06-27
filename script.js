@@ -79,30 +79,33 @@ function GameController(gameSize = 3) {
     };
     const printNewRound = () => {
         board.printBoard();
-        console.log(`The current turn is for ${getActivePlayer().getName()}`);
+        console.log(`The current turn is for ${activePlayer.getName()}`);
     };
 
     const playRound = (row, column) => {
-        if (getActivePlayer().getWinnerStatus()) {
-            throw new Error(`The game has ended with the winner is ${getActivePlayer().getName()}`);
+        if (activePlayer.getWinnerStatus()) {
+            throw new Error(`The game has ended with the winner is ${activePlayer.getName()}`);
         }
-        if (!getActivePlayer().getWinnerStatus() && tie) {
+        if (!activePlayer.getWinnerStatus() && tie) {
             throw new Error('The game has ended with a tie');
         }
 
-        console.log(`Place the ${getActivePlayer().getName()}'s mark at row ${row} and column ${column}`);
-        board.placeMark(getActivePlayer().getMarkType(), row, column);
+        console.log(`Place the ${activePlayer.getName()}'s mark at row ${row} and column ${column}`);
+        board.placeMark(activePlayer.getMarkType(), row, column);
 
-        latestMark = {mark: getActivePlayer().getMarkType(), row, column};
+        latestMark = {mark: activePlayer.getMarkType(), row, column};
         if (checkWinner()) {
-            getActivePlayer().setWinner();
+            board.printBoard();
+            activePlayer.setWinner();
 
-            let message = `${getActivePlayer().getName()} won!`;
+            let message = `${activePlayer.getName()} won!`;
             console.log(`${message}`);
             return message;
         }
         if (board.getNumPlacedMarks() === gameSize**2) {
+            board.printBoard();
             tie = true;
+            
             let message = 'A tie!';
             console.log(`${message}`);
             return message;
